@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+# Zips a whole directory all at once
+
+PATH=$1
+
+if [ ! "$PATH" ]; then
+    echo -e "Please provide a path to the directory you want to zip."
+    exit 1
+fi
+
+/bin/zip -r "$PATH.zip" "$PATH"
