@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+# Simple automation for bulk-commit
+
+PARAMS=$*
+
+if [ "$PARAMS" == "" ]; then
+    echo -e "Please provide a commit message!"
+    exit 1
+fi
+
+echo yippie
+echo "$PARAMS"
+
+git add .
+git commit -m "$PARAMS"
