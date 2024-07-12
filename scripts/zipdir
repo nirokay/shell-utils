@@ -1,5 +1,4 @@
 #!/usr/bin/env bash
-# Zips a whole directory all at once
 
 PATH=$1
 

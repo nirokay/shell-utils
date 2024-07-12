@@ -1,5 +1,4 @@
 #!/usr/bin/env bash
-# Simple automation for bulk-commit
 
 PARAMS=$*
 

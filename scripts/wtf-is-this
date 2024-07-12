@@ -1,0 +1,49 @@
+#!/usr/bin/env bash
+
+UTILS=(
+    "gac"
+    "Script to bulk-commit all changes."
+
+    "wtf-is-this"
+    "Script to inform you about what script does what... THIS is it actually!!"
+
+    "zipdir"
+    "Script to zip a whole directory. It has the same name with only '.zip' appended."
+)
+
+QUERY="$*"
+OUTPUT_ALL=()
+OUTPUT_SPECIFIC=""
+
+## now loop through the above array
+for ID in "${!UTILS[@]}"; do
+    if [ $(($ID%2)) -eq 1 ]; then
+        continue
+    fi
+    COMMAND="${UTILS[$ID]}"
+    DESCRIPTION="${UTILS[$(($ID+1))]}"
+    OUTPUT_LINE="$COMMAND  --- $DESCRIPTION"
+
+    if [ "$QUERY" == "$COMMAND" ]; then
+        OUTPUT_SPECIFIC="$OUTPUT_LINE"
+        break
+    fi
+
+    OUTPUT_ALL+=("$OUTPUT_LINE")
+done
+
+EXIT_CODE=0
+
+if [ "$OUTPUT_SPECIFIC" != "" ]; then
+    echo -e "$OUTPUT_SPECIFIC"
+else
+    if [ "$QUERY" != "" ]; then
+        EXIT_CODE=1
+        echo -e "Could not find '$QUERY'. Displaying all utils and their descriptions.\n"
+    fi
+    for LINE in "${OUTPUT_ALL[@]}"; do
+        echo -e "$LINE"
+    done
+fi
+
+exit $EXIT_CODE
