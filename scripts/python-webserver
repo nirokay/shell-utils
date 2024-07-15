@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+
+PARAMS="$*"
+PORT=80
+
+if [ "$PARAMS" != "" ]; then
+    PORT="$PARAMS"
+else
+    echo -e "No port provided, using default port $PORT"
+fi
+
+sudo python3 -m http.server "$PORT"

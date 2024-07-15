@@ -4,6 +4,9 @@ UTILS=(
     "gac"
     "Script to bulk-commit all changes."
 
+    "python-webserver"
+    "Script to quickly start a python3 http server"
+
     "wtf-is-this"
     "Script to inform you about what script does what... THIS is it actually!!"
 
