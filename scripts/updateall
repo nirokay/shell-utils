@@ -1,5 +1,13 @@
 #!/usr/bin/env bash
 
+# - Colours -------------------------------------------------------------------
+
+COL_RED='\033[0;31m'
+COL_CLEAR='\033[0m'
+COL_YELLOW='\033[1;33m'
+
+# - Root permissions ----------------------------------------------------------
+
 SUDO="sudo"
 function trysudo() {
     BIN=$1
@@ -14,9 +22,12 @@ if trysudo "sudo"; then
 elif trysudo "doas"; then
     SUDO="doas"
 else
-    echo -e "This program only supports sudo and doas. Please install one of these to continue."
+    echo -e "${COL_RED}This program only supports sudo and doas. Please install one of these to continue.${COL_CLEAR}"
     exit 1
 fi
+
+
+# - Repositories --------------------------------------------------------------
 
 COMMANDS=()
 function cmd() {
@@ -37,8 +48,6 @@ function cmd() {
     COMMANDS+=( "$PREFIX$BIN $SYNTAX" )
 }
 
-# -----------------------------------------------------------------------------
-
 # System repositories:
 cmd x "pacman"   "-Syu"                  # Arch-Linux
 cmd o "yay"      "-Syu"                  # Arch-Linux
@@ -54,14 +63,15 @@ cmd x "snap"     "refresh"  "help"
 # Additional updaters:
 cmd o "gitman"   "pull"     "help"
 
-# -----------------------------------------------------------------------------
 
-echo -e "The following commands will be executed:"
+# - Execution -----------------------------------------------------------------
+
+echo -e "${COL_YELLOW}The following commands will be executed:${COL_CLEAR}"
 for COMMAND in "${COMMANDS[@]}"; do
     echo -e "\t$COMMAND"
 done
 
-printf "Continue? [Y/n] "
+printf "\nContinue? [Y/n] "
 read -r CONTINUE
 case "$CONTINUE" in
     N|n)
@@ -69,11 +79,12 @@ case "$CONTINUE" in
         exit 1
         ;;
     *)
-        echo -e "Continuing..."
+        echo -e "Continuing...\n"
         ;;
 esac
 
 for COMMAND in "${COMMANDS[@]}"; do
-    echo -e "Executing '$COMMAND'"
+    echo -e "${COL_YELLOW}Executing '$COMMAND'${COL_CLEAR}"
     $COMMAND
 done
+echo -e "${COL_YELLOW}Update completed!${COL_CLEAR}"
