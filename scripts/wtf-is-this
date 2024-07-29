@@ -7,6 +7,9 @@ UTILS=(
     "python-webserver"
     "Script to quickly start a python3 webserver"
 
+    "updateall"
+    "Script to update all packages, supports many package managers."
+
     "wtf-is-this"
     "Script to inform you about what script does what... THIS is it actually!!"
 

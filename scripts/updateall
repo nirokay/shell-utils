@@ -1,0 +1,79 @@
+#!/usr/bin/env bash
+
+SUDO="sudo"
+function trysudo() {
+    BIN=$1
+    SYNTAX=$2
+    [ "$SYNTAX" == "" ] && SYNTAX="-h"
+
+    $BIN "$SYNTAX" &> /dev/null
+    return $?
+}
+if trysudo "sudo"; then
+    SUDO="sudo"
+elif trysudo "doas"; then
+    SUDO="doas"
+else
+    echo -e "This program only supports sudo and doas. Please install one of these to continue."
+    exit 1
+fi
+
+COMMANDS=()
+function cmd() {
+    IS_SUDO=$1
+    BIN=$2
+    SYNTAX=$3
+    VERSION_CMD=$4
+    [ "$VERSION_CMD" == "" ] && VERSION_CMD="-v"
+
+    # Return, if binary not found:
+    if ! $BIN "$VERSION_CMD" &> /dev/null; then
+        return 0
+    fi
+
+    PREFIX=""
+    [ "$IS_SUDO" == "x" ] && PREFIX="$SUDO "
+
+    COMMANDS+=( "$PREFIX$BIN $SYNTAX" )
+}
+
+# -----------------------------------------------------------------------------
+
+# System repositories:
+cmd x "pacman"   "-Syu"                  # Arch-Linux
+cmd o "yay"      "-Syu"                  # Arch-Linux
+cmd x "apt"      "update"   "help"       # Debian
+cmd x "apt"      "upgrade"  "help"       # Debian
+cmd x "zypper"   "up"       "help"       # OpenSUSE
+cmd x "dnf"      "upgrade"  "--version"  # RedHat
+
+# Additional repositories:
+cmd o "flatpak"  "update"   "--help"
+cmd x "snap"     "refresh"  "help"
+
+# Additional updaters:
+cmd o "gitman"   "pull"     "help"
+
+# -----------------------------------------------------------------------------
+
+echo -e "The following commands will be executed:"
+for COMMAND in "${COMMANDS[@]}"; do
+    echo -e "\t$COMMAND"
+done
+
+printf "Continue? [Y/n] "
+read -r CONTINUE
+case "$CONTINUE" in
+    N|n)
+        echo -e "Aborting..."
+        exit 1
+        ;;
+    *)
+        echo -e "Continuing..."
+        ;;
+esac
+
+for COMMAND in "${COMMANDS[@]}"; do
+    echo -e "Executing '$COMMAND'"
+    $COMMAND
+done
