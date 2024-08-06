@@ -8,4 +8,4 @@ if [ "$PARAMS" == "" ]; then
 fi
 
 git add .
-git commit -s -m "$PARAMS"
+git commit -m "$PARAMS"
