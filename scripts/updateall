@@ -22,8 +22,9 @@ if trysudo "sudo"; then
 elif trysudo "doas"; then
     SUDO="doas"
 else
-    echo -e "${COL_RED}This program only supports sudo and doas. Please install one of these to continue.${COL_CLEAR}"
-    exit 1
+    echo -e "${COL_RED}This program only supports sudo and doas for privilege escalation."
+    echo -e "Please install one of these. Meanwhile everything will be run with current users permissions.${COL_CLEAR}"
+    SUDO=""
 fi
 
 
@@ -49,19 +50,17 @@ function cmd() {
 }
 
 # System repositories:
-cmd x "pacman"   "-Syu"                  # Arch-Linux
-cmd o "yay"      "-Syu"                  # Arch-Linux
-cmd x "apt"      "update"   "help"       # Debian
-cmd x "apt"      "upgrade"  "help"       # Debian
-cmd x "zypper"   "up"       "help"       # OpenSUSE
-cmd x "dnf"      "upgrade"  "--version"  # RedHat
+cmd o "yay"     "-Syu"             || cmd x "pacman" "-Syu"
+cmd x "apt"     "update"  "help"
+cmd x "apt"     "upgrade" "help"
+cmd x "zypper"  "up"      "help"   || cmd x "dnf"    "upgrade" "--version" || cmd x "yum" "upgrade" "--version"
 
 # Additional repositories:
-cmd o "flatpak"  "update"   "--help"
-cmd x "snap"     "refresh"  "help"
+cmd x "flatpak" "update"  "--help"
+cmd x "snap"    "refresh" "help"
 
 # Additional updaters:
-cmd o "gitman"   "pull"     "help"
+cmd o "gitman"  "pull"    "help"
 
 
 # - Execution -----------------------------------------------------------------
