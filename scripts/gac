@@ -7,10 +7,15 @@ if [ "$PARAMS" == "" ]; then
     exit 1
 fi
 
-git add .
+if ! git add .; then
+    echo -e "Failed to add all changes, aborting."
+    exit 1
+fi
+
 if ! git commit -S -m "$PARAMS"; then
     echo -e "Failed to sign commit, using unsigned commit instead."
     if ! git commit -S -m "$PARAMS"; then
         echo -e "Failed to commit, aborting."
+        exit 1
     fi
 fi

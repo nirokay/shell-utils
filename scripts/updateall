@@ -44,7 +44,7 @@ function cmd() {
     fi
 
     PREFIX=""
-    [ "$IS_SUDO" == "x" ] && PREFIX="$SUDO "
+    [ "$IS_SUDO" == "x" ] && PREFIX="$SUDO"
 
     COMMANDS+=( "$PREFIX$BIN $SYNTAX" )
 }
