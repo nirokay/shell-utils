@@ -8,4 +8,9 @@ if [ "$PARAMS" == "" ]; then
 fi
 
 git add .
-git commit -S -m "$PARAMS"
+if ! git commit -S -m "$PARAMS"; then
+    echo -e "Failed to sign commit, using unsigned commit instead."
+    if ! git commit -S -m "$PARAMS"; then
+        echo -e "Failed to commit, aborting."
+    fi
+fi
