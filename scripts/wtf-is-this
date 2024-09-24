@@ -4,8 +4,11 @@ UTILS=(
     "gac"
     "Script to bulk-commit all changes."
 
+    "nimdocgen"
+    "Script to automatically generate and deploy docs for projects using the Nim programming language."
+
     "python-webserver"
-    "Script to quickly start a python3 webserver"
+    "Script to quickly start a python3 webserver."
 
     "updateall"
     "Script to update all packages, supports many package managers."

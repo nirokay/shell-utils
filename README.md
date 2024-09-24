@@ -15,6 +15,11 @@ path!
 
 Basically an alias to `git add . && git commit -m $*`
 
+### nimdocgen
+
+Script to automatically generate and deploy docs for projects using the Nim
+programming language.
+
 ### python-webserver
 
 Script to quickly start a python3 webserver.

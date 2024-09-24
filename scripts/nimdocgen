@@ -1,0 +1,105 @@
+#!/usr/bin/env bash
+
+# Project name:
+PROJECT_DIRECTORY="$1"
+[ -z "$PROJECT_DIRECTORY" ] && {
+    DIR="$(basename "$(pwd)")"
+    echo -en "Project directory as variable \$1 was not passed, using '$DIR', is this correct? [y/n] "
+    CONFIRMED=0
+    while [ $CONFIRMED -eq 0 ]; do
+        read -r CONFIRM
+        case $CONFIRM in
+            Y|y)
+                echo -e "Confirmed, continuing."
+                PROJECT_DIRECTORY="$DIR"
+                CONFIRMED=1
+                ;;
+            N|n)
+                echo -e "Gotchu fam, aborting."
+                exit 1
+                ;;
+            *)
+                echo -en "Unclear confirmation, is project directory '$DIR' correct? [y/n] "
+                ;;
+        esac
+    done
+}
+
+# Nim docs location:
+[ -z "$NIM_DOCS_DIRECTORY" ] && NIM_DOCS_DIRECTORY=../nirokay.github.io/nim-docs/
+[ ! -d "$NIM_DOCS_DIRECTORY" ] && {
+    echo -e "Target directory '$NIM_DOCS_DIRECTORY' does not exist, are you in the right path or are you missing repositories?"
+    exit 1
+}
+TARGET_DIRECTORY="$NIM_DOCS_DIRECTORY$PROJECT_DIRECTORY"
+
+# Main nim file:
+MAIN_NIM_FILE="$2.nim"
+[ "$MAIN_NIM_FILE" == ".nim" ] && {
+    MAIN_NIM_FILE="$PROJECT_DIRECTORY.nim"
+}
+[ ! -f "$MAIN_NIM_FILE" ] && {
+    echo -e "Could not find main Nim file '$MAIN_NIM_FILE'. If it differs from the directory name, please pass it as the \$2 argument!"
+    exit 1
+}
+
+# Generate docs:
+echo -e "Generating docs..."
+DOCS_OUTPUT="docs"
+nimble doc --project --index:on --outdir:$DOCS_OUTPUT "$MAIN_NIM_FILE" || {
+    nim doc --project --index:on --outdir:$DOCS_OUTPUT "$MAIN_NIM_FILE" || {
+        echo -e "Could not generate Nim docs, are you in the correct directory?"
+        exit 1
+    }
+}
+echo -e "Finished doc generation!"
+
+# Backing up old deployment, if present:
+echo -e "Moving docs to '$NIM_DOCS_DIRECTORY'..."
+BACKUP_DIRECTORY="$TARGET_DIRECTORY~"
+[ -d "$TARGET_DIRECTORY" ] && {
+    mv "$TARGET_DIRECTORY" "$BACKUP_DIRECTORY" || {
+        echo -e "Could not back up currently deployed docs to '$BACKUP_DIRECTORY', manual intervention is required."
+        exit 1
+    }
+}
+
+# Moving newly generated docs:
+mkdir "$TARGET_DIRECTORY"
+cp -r $DOCS_OUTPUT/* "$TARGET_DIRECTORY/" || {
+    echo -e "Failed to copy generated docs"
+    exit 1
+}
+
+# Removing backup docs:
+[ -d "$BACKUP_DIRECTORY" ] && {
+    rm -r "$BACKUP_DIRECTORY" || {
+        echo -e "Failed to delete backup of previous deployed docs '$BACKUP_DIRECTORY', must be done manually."
+        exit 1
+    }
+}
+
+# Automated git commit & push:
+echo -en "Add, commit and push changes of directory '$TARGET_DIRECTORY' with git? [Y/n] "
+read -r ADD_TO_GIT
+case "$ADD_TO_GIT" in
+    N|n)
+        echo -e "Skipping automated git commit and push"
+        ;;
+    *)
+        cd "$NIM_DOCS_DIRECTORY" || {
+            echo -e "Failed to enter '$NIM_DOCS_DIRECTORY'"
+            exit 1
+        }
+
+        git add "$PROJECT_DIRECTORY" && git commit -m "Updated docs for '$PROJECT_DIRECTORY'" && git push
+
+        cd - || {
+            echo -e "Failed to reenter working directory, how does this even happen?"
+            exit 1
+        }
+        ;;
+esac
+
+echo -e "Everything went well! :)"
+exit 0
