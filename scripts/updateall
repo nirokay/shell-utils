@@ -51,18 +51,18 @@ function cmd() {
 }
 
 # System repositories:
-cmd o "yay"     "-Syu"              || cmd x "pacman" "-Syu"
-cmd x "apt"     "update"  "help"
-cmd x "apt"     "upgrade" "help"
-cmd x "zypper"  "up"      "help"    || cmd x "dnf"    "upgrade" "--version" || cmd x "yum" "upgrade" "--version"
+cmd o "yay"     "-Syu"                 || cmd x "pacman" "-Syu"
+cmd x "apt"     "update"     "help"
+cmd x "apt"     "upgrade -y" "help"
+cmd x "zypper"  "up"         "help"    || cmd x "dnf"    "upgrade" "--version" || cmd x "yum" "upgrade" "--version"
 
 # Additional repositories:
-cmd x "flatpak" "update"  "--help"
-cmd x "snap"    "refresh" "help"
+cmd x "flatpak" "update -y"  "--help"
+cmd x "snap"    "refresh"    "help"
 
 # Additional updaters:
-cmd o "omz"     "update"  "version"
-cmd o "gitman"  "pull"    "help"
+cmd o "omz"     "update"     "version"
+cmd o "gitman"  "pull"       "help"
 
 
 # - Execution -----------------------------------------------------------------
