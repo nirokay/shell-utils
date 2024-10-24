@@ -14,7 +14,7 @@ fi
 
 if ! git commit -S -m "$PARAMS"; then
     echo -e "Failed to sign commit, using unsigned commit instead."
-    if ! git commit -S -m "$PARAMS"; then
+    if ! git commit -m "$PARAMS"; then
         echo -e "Failed to commit, aborting."
         exit 1
     fi

@@ -1,18 +1,18 @@
 #!/usr/bin/env bash
 
-# - Options -------------------------------------------------------------------
+# = Options ===================================================================
 
 UPDATEALL_ASYNC=0
 
 
-# - Colours -------------------------------------------------------------------
+# = Colours ===================================================================
 
 COL_RED='\033[0;31m'
 COL_CLEAR='\033[0m'
 COL_YELLOW='\033[1;33m'
 
 
-# - Root permissions ----------------------------------------------------------
+# = Root permissions ==========================================================
 
 SUDO="sudo"
 function trysudo() {
@@ -34,7 +34,7 @@ else
 fi
 
 
-# - Repositories --------------------------------------------------------------
+# = Repositories ==============================================================
 
 COMMANDS=()
 function cmd() {
@@ -56,22 +56,27 @@ function cmd() {
     COMMANDS+=( "$PREFIX$BIN $SYNTAX" )
 }
 
-# System repositories:
-cmd o "yay"     "-Syu"                 || cmd x "pacman" "-Syu"
-cmd x "apt"     "update"     "help"
-cmd x "apt"     "upgrade -y" "help"
-cmd x "zypper"  "up"         "help"    || cmd x "dnf"    "upgrade" "--version" || cmd x "yum" "upgrade" "--version"
+# - System repositories: ------------------------------------------------------
+# | sudo: bool | binary: string | update: string | version: string |
+# Arch-based systems:
+cmd o "yay"         "-Syu"                   || cmd x "pacman"  "-Syu"
 
-# Additional repositories:
-cmd x "flatpak" "update -y"  "--help"
-cmd x "snap"    "refresh"    "help"
+# Debian-based systems:
+cmd x "apt"         "update"     "help"      && cmd x "apt"     "upgrade -y" "help"
 
-# Additional updaters:
-cmd o "omz"     "update"     "version"
-cmd o "gitman"  "pull"       "help"
+# Redhat-based systems:
+cmd x "zypper"      "up"         "help"      || cmd x "dnf"     "upgrade"    "--version" || cmd x "yum" "upgrade" "--version"
 
+# - Additional repositories: --------------------------------------------------
+cmd x "flatpak"     "update -y"  "--help"
+cmd x "snap"        "refresh"    "help"
 
-# - Async execution -----------------------------------------------------------
+# - Additional updaters: ------------------------------------------------------
+cmd o "omz"         "update"     "version"
+cmd o "brew"        "upgrade"    "--version"
+cmd o "gitman"      "pull"       "help"
+
+# = Async execution ===========================================================
 
 function launchterminalwithpayload() {
     # PAYLOAD="echo -e \"${COL_YELLOW}Executing '$COMMAND'${COL_CLEAR}\"; $*; echo Finished; read"
@@ -84,7 +89,7 @@ function launchterminalwithpayload() {
 }
 
 
-# - Execution -----------------------------------------------------------------
+# = Execution =================================================================
 
 echo -e "${COL_YELLOW}The following commands will be executed:${COL_CLEAR}"
 for COMMAND in "${COMMANDS[@]}"; do
