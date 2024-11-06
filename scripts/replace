@@ -1,0 +1,39 @@
+#!/usr/bin/env lua
+
+local args = {...}
+local to_replace = args[1]
+local replace_with = args[2]
+local replacement_table = {
+    {"/", "\\/"}
+}
+
+local function killprogram(msg, exitCode)
+    local exit = exitCode or 2
+    print("[ERROR] " .. msg)
+    os.exit(exit)
+end
+local function cleanupString(text)
+    local result = text or ""
+    for _, pair in ipairs(replacement_table) do
+        string.gsub(result, pair[1], pair[2])
+    end
+    return result
+end
+
+local sedStatus = os.execute("sed --version &> /dev/null")
+if not sedStatus then
+    killprogram("'sed' was not able to be executed. Is it in your path?", 1)
+end
+
+if to_replace == nil then
+    killprogram("'$1' the 'character to replace' arg is not set.")
+elseif replace_with == nil then
+    killprogram("'$2' the 'replace with this character' arg is not set.")
+end
+
+to_replace = cleanupString(to_replace)
+replace_with = cleanupString(replace_with)
+
+local shellCommand = "sed \"s/" .. to_replace .. "/" .. replace_with .. "/g\""
+local _, _, exitCode = os.execute(shellCommand)
+os.exit(exitCode)

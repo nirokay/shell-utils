@@ -2,22 +2,25 @@
 
 UTILS=(
     "gac"
-    "Script to bulk-commit all changes."
+    "Bash script to bulk-commit all changes."
 
     "nimdocgen"
-    "Script to automatically generate and deploy docs for projects using the Nim programming language."
+    "Bash script to automatically generate and deploy docs for projects using the Nim programming language."
 
     "python-webserver"
-    "Script to quickly start a python3 webserver."
+    "Bash script to quickly start a python3 webserver."
+
+    "replace"
+    "Lua Script that simplifies the 'sed' symtax for easy character replacement."
 
     "updateall"
-    "Script to update all packages, supports many package managers."
+    "Bash script to update all packages, supports many package managers."
 
     "wtf-is-this"
-    "Script to inform you about what script does what... THIS is it actually!!"
+    "Bash script to inform you about what script does what... THIS is it actually!!"
 
     "zipdir"
-    "Script to zip a whole directory. It has the same name with only '.zip' appended."
+    "Bash script to zip a whole directory. It has the same name with only '.zip' appended."
 )
 
 QUERY="$*"
