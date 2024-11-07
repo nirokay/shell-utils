@@ -11,7 +11,7 @@ UTILS=(
     "Bash script to quickly start a python3 webserver."
 
     "replace         "
-    "Lua Script that simplifies the 'sed' symtax for easy character replacement."
+    "Lua Script that simplifies the 'sed' syntax for easy character replacement."
 
     "updateall       "
     "Bash script to update all packages, supports many package managers.\n\
