@@ -1,15 +1,30 @@
 #!/usr/bin/env bash
 
-# = Options ===================================================================
-
-UPDATEALL_ASYNC=0
-
-
 # = Colours ===================================================================
 
 COL_RED='\033[0;31m'
 COL_CLEAR='\033[0m'
 COL_YELLOW='\033[1;33m'
+
+
+# = Options ===================================================================
+
+ARGS=( "$@" )
+UPDATEALL_ASYNC=0
+
+function declareOption() {
+    echo -e "[${COL_YELLOW}OPTION${COL_CLEAR}] $*"
+}
+for ARG in "${ARGS[@]}"; do
+    case "$ARG" in
+        "-a"|"--async")
+            declareOption "Async Update"
+            UPDATEALL_ASYNC=1
+            ;;
+        *)
+            ;;
+    esac
+done
 
 
 # = Root permissions ==========================================================
@@ -79,10 +94,10 @@ cmd o "gitman"      "pull"       "help"
 # = Async execution ===========================================================
 
 function launchterminalwithpayload() {
-    # PAYLOAD="echo -e \"${COL_YELLOW}Executing '$COMMAND'${COL_CLEAR}\"; $*; echo Finished; read"
+    # PAYLOAD="echo -e \"${COL_YELLOW}Executing '$COMMAND'${COL_CLEAR}\"\; $*; echo Finished; read"
     PAYLOAD="$*"
-    if konsole -h &> /dev/null; then
-        konsole -e "$PAYLOAD" &
+    if konsole -v &> /dev/null; then
+        konsole -e "$PAYLOAD" &> /dev/null &
     else
         echo "Failed to find supported terminal emulator."
     fi
@@ -118,4 +133,9 @@ for COMMAND in "${COMMANDS[@]}"; do
         launchterminalwithpayload "$COMMAND"
     fi
 done
-echo -e "${COL_YELLOW}Update completed!${COL_CLEAR}"
+if [ $UPDATEALL_ASYNC == 0 ]; then
+    echo -e "${COL_YELLOW}Update completed!${COL_CLEAR}"
+else
+    sleep 2 # allow nasty output from starting the children to clear the screen
+    echo -e "${COL_YELLOW}Updating in background...${COL_CLEAR}"
+fi

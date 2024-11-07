@@ -38,6 +38,8 @@ this_is_an_entry        more_data       hello_world
 Bash script that updates all software supporting multiple package managers, determining which
 ones are installed at runtime.
 
+> * `-a`,`--async` Performs updates in parallel by opening multiple terminal emulator windows (not all of them may be supported)
+
 ### wtf-is-this
 
 Utility to get information about all the scripts or a single one in this project.
