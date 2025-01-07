@@ -16,6 +16,8 @@ Bash script to bulk-commit all changes. Basically an alias to `git add . && git 
 
 ### newsshkey
 
+Bash script to automatically generate SSH keys.
+
 #### Examples
 
 ```bash
