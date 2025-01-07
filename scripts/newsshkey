@@ -1,0 +1,68 @@
+#!/usr/bin/env bash
+
+function getBeforeSpace() {
+    WORD=$1
+    echo "$WORD"
+}
+
+echo -en "Email (empty by default): "
+read -r EMAIL
+
+DEFAULT_ALGORITHM="ed25519"
+echo -en "Algorithm (and following arguments) (default: '$DEFAULT_ALGORITHM'): "
+read -r ALGORITHM
+[ -z "$ALGORITHM" ] && ALGORITHM=$DEFAULT_ALGORITHM
+
+# shellcheck disable=SC2086 #* used to split following arguments
+DEFAULT_FILE=~/.ssh/id_"$(getBeforeSpace $ALGORITHM)"
+echo -en "File location (default: '$DEFAULT_FILE'): "
+read -r FILE
+[ -z "$FILE" ] && FILE=$DEFAULT_FILE
+
+COMMANDS=()
+if [ -n "$EMAIL" ]; then
+    # shellcheck disable=SC2086
+    COMMANDS+=("ssh-keygen -t $ALGORITHM -C \"$EMAIL\"")
+else
+    # shellcheck disable=SC2086
+    COMMANDS+=("ssh-keygen -t $ALGORITHM")
+fi
+COMMANDS+=(
+    "eval \"\$(ssh-agent -s)\""
+    "ssh-add \"$FILE\""
+)
+
+echo -e "\nThe following commands will be executed:"
+for COMMAND in "${COMMANDS[@]}"; do
+    echo -e "\t$COMMAND"
+done
+echo ""
+
+CONSENT_COMMANDS=""
+while [ "$CONSENT_COMMANDS" != "y" ]; do
+    echo -en "Are these correct? [y/n] "
+    read -r CONSENT_COMMANDS
+    case "$CONSENT_COMMANDS" in
+        y|Y)
+            echo -e "Continuing...\n"
+            ;;
+        n|N)
+            echo -e "Aborting."
+            exit 1
+            ;;
+        *)
+            echo -e "Invalid response, please retry."
+            ;;
+    esac
+done
+
+# Execute commands:
+for COMMAND in "${COMMANDS[@]}"; do
+    eval "$COMMAND"
+    STATUS=$?
+    [ ! $STATUS -eq 0 ] && {
+        echo -e "\nCommand '$COMMAND' failed with exit code '$STATUS'. Aborting."
+        exit 1
+    }
+done
+echo -e "Everything complete! :)"

@@ -4,6 +4,9 @@ UTILS=(
     "gac             "
     "Bash script to bulk-commit all changes."
 
+    "newsshkey       "
+    "Bash script to automatically generate SSH keys."
+
     "nimdocgen       "
     "Bash script to automatically generate and deploy docs for projects using the Nim programming language."
 

@@ -14,6 +14,51 @@ You can clone this repository and simply add the `scripts` subdirectory to your 
 
 Bash script to bulk-commit all changes. Basically an alias to `git add . && git commit -m $*`
 
+### newsshkey
+
+#### Examples
+
+```bash
+$ newsshkey
+Email (empty by default): 
+Algorithm (and following arguments) (default: 'ed25519'): 
+File location (default: '/home/niro/.ssh/id_ed25519'): 
+
+The following commands will be executed:
+        ssh-keygen -t ed25519
+        eval "$(ssh-agent -s)"
+        ssh-add "/home/niro/.ssh/id_ed25519"
+
+Are these correct? [y/n] 
+...
+Everything complete! :)
+```
+
+```bash
+newsshkey
+Email (empty by default): 
+Algorithm (and following arguments) (default: 'ed25519'): rsa -b 4096
+File location (default: '/home/niro/.ssh/id_rsa'): 
+
+The following commands will be executed:
+        ssh-keygen -t rsa -b 4096
+        eval "$(ssh-agent -s)"
+        ssh-add "/home/niro/.ssh/id_rsa"
+
+Are these correct? [y/n] y
+Continuing...
+
+Generating public/private rsa key pair.
+Enter file in which to save the key (/home/niro/.ssh/id_rsa): 
+Enter passphrase for "/home/niro/.ssh/id_rsa" (empty for no passphrase): ******
+Enter same passphrase again: ******
+Your identification has been saved in /home/niro/.ssh/id_rsa
+Your public key has been saved in /home/niro/.ssh/id_rsa.pub
+The key fingerprint is:
+...
+Everything complete! :)
+```
+
 ### nimdocgen
 
 Bash script to automatically generate and deploy docs for projects using the Nim programming
