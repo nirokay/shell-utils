@@ -89,7 +89,7 @@ cmd x "snap"        "refresh"    "help"
 # - Additional updaters: ------------------------------------------------------
 cmd o "omz"         "update"     "version"
 cmd o "brew"        "upgrade"    "--version"
-cmd o "gitman"      "pull"       "help"
+cmd o "gitman"      "async-pull" "help"
 
 # = Async execution ===========================================================
 
