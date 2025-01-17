@@ -1,6 +1,9 @@
 #!/usr/bin/env bash
 
 UTILS=(
+    "clipcopy        "
+    "Bash script, evoking xclip or wl-copy based on your environment, for copying to your clipboard."
+
     "gac             "
     "Bash script to bulk-commit all changes."
 

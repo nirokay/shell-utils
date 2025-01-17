@@ -10,6 +10,18 @@ You can clone this repository and simply add the `scripts` subdirectory to your 
 
 ## Scripts
 
+### clipcopy
+
+Bash script, evoking xclip or wl-copy based on your environment, for copying to your clipboard.
+
+#### Examples
+
+```bash
+$ echo "Hello world!" | clipcopy
+$ xclip # This example assumes x11 session
+Hello world!
+```
+
 ### gac
 
 Bash script to bulk-commit all changes. Basically an alias to `git add . && git commit -m $*`

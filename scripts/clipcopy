@@ -1,0 +1,38 @@
+#!/usr/bin/env bash
+
+BACKEND=""
+ARGS=""
+
+function error() {
+    echo -e "$*"
+    exit 1
+}
+
+case "$XDG_SESSION_TYPE" in
+    x11)
+        BACKEND="xclip"
+        ARGS="-i"
+        ;;
+    wayland)
+        BACKEND="wl-copy"
+        ;;
+    tty)
+        error "Your session needs to be x11 or wayland"
+        ;;
+    *)
+        error "Current session cannot be determined (XDG_SESSION_TYPE env variable set to '$XDG_SESSION_TYPE')"
+        ;;
+esac
+
+if ! $BACKEND -h &> /dev/null; then
+    error "Failed to execute program $BACKEND, is it installed and in your path?"
+fi
+
+COPY_COMMAND=""
+if [ -n "$ARGS" ]; then
+    COPY_COMMAND="$BACKEND $ARGS"
+else
+    COPY_COMMAND="$BACKEND"
+fi
+
+$COPY_COMMAND
