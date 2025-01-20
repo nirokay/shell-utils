@@ -79,8 +79,8 @@ cmd o "yay"         "-Syu"                   || cmd x "pacman"  "-Syu"
 # Debian-based systems:
 cmd x "apt"         "update"     "help"      && cmd x "apt"     "upgrade -y" "help"
 
-# Redhat-based systems:
-cmd x "zypper"      "up"         "help"      || cmd x "dnf"     "upgrade"    "--version" || cmd x "yum" "upgrade" "--version"
+# RPM systems:
+cmd x "zypper"      "dup"        "help"      || cmd x "dnf"     "upgrade"    "--version" || cmd x "yum" "upgrade" "--version"
 
 # - Additional repositories: --------------------------------------------------
 cmd x "flatpak"     "update -y"  "--help"
