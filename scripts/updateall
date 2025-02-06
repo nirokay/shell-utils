@@ -74,22 +74,23 @@ function cmd() {
 # - System repositories: ------------------------------------------------------
 # | sudo: bool | binary: string | update: string | version: string |
 # Arch-based systems:
-cmd o "yay"         "-Syu"                   || cmd x "pacman"  "-Syu"
+cmd o "yay"         "-Syu"                                  || cmd x "pacman"  "-Syu"
 
 # Debian-based systems:
-cmd x "apt"         "update"     "help"      && cmd x "apt"     "upgrade -y" "help"
+cmd x "apt"         "update"                    "help"      && cmd x "apt"     "upgrade -y" "help"
 
 # RPM systems:
-cmd x "zypper"      "dup"        "help"      || cmd x "dnf"     "upgrade"    "--version" || cmd x "yum" "upgrade" "--version"
+cmd x "zypper"      "dup"                       "help"      || cmd x "dnf"     "upgrade"    "--version" || cmd x "yum" "upgrade" "--version"
 
 # - Additional repositories: --------------------------------------------------
-cmd x "flatpak"     "update -y"  "--help"
-cmd x "snap"        "refresh"    "help"
+cmd x "flatpak"     "update -y"                 "--help"
+cmd x "snap"        "refresh"                   "help"
 
 # - Additional updaters: ------------------------------------------------------
-cmd o "omz"         "update"     "version"
-cmd o "brew"        "upgrade"    "--version"
-cmd o "gitman"      "async-pull" "help"
+cmd o "omz"         "update"                    "version"
+cmd o "brew"        "upgrade"                   "--version"
+cmd o "gitman"      "async-pull || gitman pull" "help"
+
 
 # = Async execution ===========================================================
 
