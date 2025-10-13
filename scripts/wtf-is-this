@@ -7,6 +7,9 @@ UTILS=(
     "gac             "
     "Bash script to bulk-commit all changes."
 
+    "gpl3gen         "
+    "Generates a GPL-3.0 licence (file name: 'LICENSE') in the current directory."
+
     "newsshkey       "
     "Bash script to automatically generate SSH keys."
 
