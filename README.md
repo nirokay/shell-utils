@@ -26,6 +26,21 @@ Hello world!
 
 Bash script to bulk-commit all changes. Basically an alias to `git add . && git commit -m $*`
 
+### glp3gen
+
+Lua script to quickly generate and fill out a GPL-3.0 licence in the current directory.
+
+#### Example
+
+```bash
+$ gpl3gen
+Project name: new project
+Short project description: something something
+Project author: me, ofc
+(Current) Year: now
+Successfully wrote to file 'LICENSE'.
+```
+
 ### newsshkey
 
 Bash script to automatically generate SSH keys.
@@ -34,25 +49,25 @@ Bash script to automatically generate SSH keys.
 
 ```bash
 $ newsshkey
-Email (empty by default): 
-Algorithm (and following arguments) (default: 'ed25519'): 
-File location (default: '/home/niro/.ssh/id_ed25519'): 
+Email (empty by default):
+Algorithm (and following arguments) (default: 'ed25519'):
+File location (default: '/home/niro/.ssh/id_ed25519'):
 
 The following commands will be executed:
         ssh-keygen -t ed25519
         eval "$(ssh-agent -s)"
         ssh-add "/home/niro/.ssh/id_ed25519"
 
-Are these correct? [y/n] 
+Are these correct? [y/n]
 ...
 Everything complete! :)
 ```
 
 ```bash
 newsshkey
-Email (empty by default): 
+Email (empty by default):
 Algorithm (and following arguments) (default: 'ed25519'): rsa -b 4096
-File location (default: '/home/niro/.ssh/id_rsa'): 
+File location (default: '/home/niro/.ssh/id_rsa'):
 
 The following commands will be executed:
         ssh-keygen -t rsa -b 4096
@@ -63,7 +78,7 @@ Are these correct? [y/n] y
 Continuing...
 
 Generating public/private rsa key pair.
-Enter file in which to save the key (/home/niro/.ssh/id_rsa): 
+Enter file in which to save the key (/home/niro/.ssh/id_rsa):
 Enter passphrase for "/home/niro/.ssh/id_rsa" (empty for no passphrase): ******
 Enter same passphrase again: ******
 Your identification has been saved in /home/niro/.ssh/id_rsa
