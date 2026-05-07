@@ -1,0 +1,88 @@
+#!/usr/bin/env bash
+
+declare -A UNFUCKS # list of unfucks ("solutions")
+
+function unfucking() {
+    NAME="$1"
+    COMMAND="$2"
+
+    INDEX=$(( ${#UNFUCKS[@]} / 2 ))
+
+    UNFUCKS[${INDEX},0]="$NAME"
+    UNFUCKS[${INDEX},1]="$COMMAND"
+}
+
+
+# Add unfucks here: -----------------------------------------------------------
+
+unfucking kde "dbus-run-session startplasma-wayland"
+unfucking gpg "gpgconf --kill gpg-agent"
+
+# Thanks for the unfucks :) ---------------------------------------------------
+
+
+FUCKED="$*" # this is what is fucked and needs unfucking
+COL_Y="\e[1;33m"
+COL_O="\e[0;33m"
+N_COL="\e[0m"
+
+function printAllSolutions() {
+    MSG="$*"
+    [ -z "$MSG" ] && MSG="List of all unfucks:"
+    echo -e "$MSG\n"
+
+    MAX_INDEX=$(( "${#UNFUCKS[@]}" / 2 - 1 ))
+    for INDEX in $(seq 0 $MAX_INDEX); do
+        NAME="${UNFUCKS[${INDEX},0]}"
+        COMMAND="${UNFUCKS[${INDEX},1]}"
+        echo -e "$COL_Y$NAME$N_COL  ->  $COL_O$COMMAND$N_COL"
+        [ ! $MAX_INDEX -eq $INDEX ] && echo -en "\n"
+    done
+}
+
+if [[ -z "$FUCKED" ]]; then
+    # Help message:
+    printAllSolutions "You have provided no arguments, printing all available unfucks:"
+    exit 2
+else
+    # Try to unfuck:
+    TO_UNFUCK=""
+    TO_EXECUTE=""
+
+    MAX_INDEX=$(( "${#UNFUCKS[@]}" / 2 - 1 ))
+    for INDEX in $(seq 0 $MAX_INDEX); do
+        NAME="${UNFUCKS[${INDEX},0]}"
+        COMMAND="${UNFUCKS[${INDEX},1]}"
+
+        if [[ "$NAME" == "$FUCKED" ]]; then
+            TO_UNFUCK="$FUCKED"
+            TO_EXECUTE="$COMMAND"
+            break
+        fi
+    done
+
+    # Not found:
+    if [[ -z "$TO_EXECUTE" ]]; then
+        printAllSolutions "Could not find '$COL_Y$FUCKED$N_COL' unfuck option, here are all available unfucks:"
+        exit 2
+    fi
+
+    # Consent:
+    echo -e "You are about to unfuck $COL_Y$TO_UNFUCK$N_COL by running the following command:\n\n$COL_O$TO_EXECUTE$N_COL\n"
+    CONSENT=""
+    while [ "$CONSENT" != "Y" ] && [ "$CONSENT" != "y" ] && [ "$CONSENT" != "N" ] && [ "$CONSENT" != "n" ]; do
+        echo -en "Are you sure? [y/n] "
+        read CONSENT
+    done
+
+    if [[ "$CONSENT" == "Y" ]] || [ "$CONSENT" == "y" ]; then
+        echo -e "Unfucking $COL_Y$TO_UNFUCK$N_COL..."
+        eval "$COMMAND" # HIGHLY secure!!!#
+        echo -e "Execution complete!"
+    else
+        echo -e "Aborting."
+        exit 1
+    fi
+fi
+
+exit 0

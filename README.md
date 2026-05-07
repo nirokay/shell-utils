@@ -18,7 +18,13 @@ Bash script, evoking xclip or wl-copy based on your environment, for copying to 
 
 ```bash
 $ echo "Hello world!" | clipcopy
-$ xclip # This example assumes x11 session
+$ xclip
+Hello world!
+```
+
+```bash
+$ echo "Hello world!" | clipcopy
+$ wl-paste
 Hello world!
 ```
 
@@ -160,6 +166,32 @@ Continuing...
 Executing 'sudo zypper up'
 [sudo] password for root: ******
 ...
+```
+
+### unfuck
+
+Unfucks some common software fucks-ups I encounter.
+
+#### Examples
+
+```bash
+$ unfuck    
+You have provided no arguments, printing all available unfucks:
+
+kde  ->  dbus-run-session startplasma-wayland
+
+gpg  ->  gpgconf --kill gpg-agent
+```
+
+```bash
+$ unfuck gpg
+You are about to unfuck gpg by running the following command:
+
+gpgconf --kill gpg-agent
+
+Are you sure? [y/n] y
+Unfucking gpg...
+Execution complete!
 ```
 
 ### wtf-is-this

@@ -26,6 +26,9 @@ UTILS=(
     "Bash script to update all packages, supports many package managers.\n\
     -a,--async       Perform updates in parallel (opens multiple terminal windows, not all are supported)"
 
+    "unfuck          "
+    "Unfuck software, when it is not behaving like it should. Run without parameters for help."
+
     "wtf-is-this     "
     "Bash script to inform you about what script does what... THIS is it actually!!"
 
