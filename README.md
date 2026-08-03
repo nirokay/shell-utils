@@ -12,7 +12,7 @@ You can clone this repository and simply add the `scripts` subdirectory to your 
 
 ### clipcopy
 
-Bash script, evoking xclip or wl-copy based on your environment, for copying to your clipboard.
+Bash script, evoking `xclip` or `wl-copy` based on your environment, for copying to your clipboard.
 
 #### Examples
 
@@ -26,6 +26,54 @@ Hello world!
 $ echo "Hello world!" | clipcopy
 $ wl-paste
 Hello world!
+```
+
+### ffmpeg-dir-convert
+
+Bash script for converting all files in the directory from one format to another format.
+Depends on `ffmpeg-file-convert`.
+
+#### Examples
+
+```bash
+$ ls
+important_picture.png  secrets.jpg  secrets.png
+
+$ ffmpeg-dir-convert png webp
+[...]
+Successfully converted 2 files.
+ ✅ 'important_picture.png' -> webp
+ ✅ 'secrets.png' -> webp
+
+$ ls                    
+important_picture.png  important_picture.webp  secrets.jpg  secrets.png  secrets.webp
+```
+
+```bash
+$ ffmpeg-dir-convert png wawawa
+[...]
+Successfully converted 0 files.
+
+Failed to convert 2 files.
+ ❌ 'important_picture.png' -> wawawa
+ ❌ 'secrets.png' -> wawawa
+```
+
+### ffmpeg-file-convert
+
+Bash script for converting a file from one format to another whilst keeping the same name.
+    
+#### Example
+
+```bash
+$ ls
+important_picture.png  secrets.png
+
+$ ffmpeg-file-convert secrets.png jpg
+[...]
+
+$ ls
+important_picture.png  secrets.jpg  secrets.png
 ```
 
 ### gac
@@ -65,7 +113,7 @@ The following commands will be executed:
         ssh-add "/home/niro/.ssh/id_ed25519"
 
 Are these correct? [y/n]
-...
+[...]
 Everything complete! :)
 ```
 
@@ -90,7 +138,7 @@ Enter same passphrase again: ******
 Your identification has been saved in /home/niro/.ssh/id_rsa
 Your public key has been saved in /home/niro/.ssh/id_rsa.pub
 The key fingerprint is:
-...
+[...]
 Everything complete! :)
 ```
 
@@ -106,13 +154,13 @@ $ nimdocgen websitegenerator
 Generating docs...
   Verifying dependencies for websitegenerator@2.1.0
  Generating documentation for websitegenerator (from package websitegenerator) using doc backend
-...
+[...]
 Finished doc generation!
 Moving docs to '/home/niro/Git/nirokay.github.io/nim-docs/'...
 Add, commit and push changes of directory '/home/niro/Git/nirokay.github.io/nim-docs/websitegenerator' with git? [Y/n] y
 [main 7981721] Updated docs for 'websitegenerator'
  14 files changed, 14 insertions(+), 14 deletions(-)
-...
+[...]
 remote: Resolving deltas: 100% (17/17), completed with 17 local objects.
 To github.com:nirokay/nirokay.github.io
    f752fad..7981721  main -> main
@@ -165,7 +213,7 @@ Continuing...
 
 Executing 'sudo zypper up'
 [sudo] password for root: ******
-...
+[...]
 ```
 
 ### unfuck

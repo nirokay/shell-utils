@@ -1,0 +1,57 @@
+#!/usr/bin/env bash
+
+if ! ffmpeg-file-convert exists; then
+    echo -e "Missing dependency script: ffmpeg-file-convert"
+    exit 1
+fi
+
+FORMAT_ORIGINAL=$1
+FORMAT_TARGET=$2
+
+[ -z "$FORMAT_ORIGINAL" ] && {
+    echo -e "Missing argument, original format must be \$1."
+    exit 2
+}
+[ -z "$FORMAT_TARGET" ] && {
+    echo -e "Missing argument, target format must be \$2."
+    exit 2
+}
+
+#declare -a PROCESSES
+declare -a SUCCESSFUL_CONVERSIONS
+declare -a FAILED_CONVERSIONS
+
+function formatFile() {
+    ORIGINAL_FILE=$1
+    if ! ffmpeg-file-convert "$ORIGINAL_FILE" "$FORMAT_TARGET" > /dev/null; then
+        FAILED_CONVERSIONS+=("$ORIGINAL_FILE")
+        else
+        SUCCESSFUL_CONVERSIONS+=("$ORIGINAL_FILE")
+    fi
+}
+
+for ORIGINAL_FILE in *."$FORMAT_ORIGINAL"; do
+    formatFile "$ORIGINAL_FILE"
+    #PROCESSES+=($!)
+done
+
+#for PROCESS in "${PROCESSES[@]}"; do
+#    [ -e /proc/$PROCESS ] && sleep 0.05
+#done
+
+wait
+
+echo -e "\nSuccessfully converted ${#SUCCESSFUL_CONVERSIONS[@]} files."
+[ "${#SUCCESSFUL_CONVERSIONS[@]}" -gt 0 ] && {
+    for ITEM in "${SUCCESSFUL_CONVERSIONS[@]}"; do
+        echo -e " ✅ '$ITEM' -> $FORMAT_TARGET"
+    done
+}
+
+if [ "${#FAILED_CONVERSIONS[@]}" -gt 0 ]; then
+    echo -e "\nFailed to convert ${#FAILED_CONVERSIONS[@]} files."
+    for ITEM in "${FAILED_CONVERSIONS[@]}"; do
+        echo -e " ❌ '$ITEM' -> $FORMAT_TARGET"
+    done
+    exit 1
+fi

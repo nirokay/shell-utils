@@ -1,38 +1,44 @@
 #!/usr/bin/env bash
 
 UTILS=(
-    "clipcopy        "
+    "clipcopy           "
     "Bash script, evoking xclip or wl-copy based on your environment, for copying to your clipboard."
 
-    "gac             "
+    "ffmpeg-dir-convert "
+    "Bash script for converting all files in the directory from one format to another format."
+
+    "ffmpeg-file-convert"
+    "Bash script for converting a file from one format to another whilst keeping the same name."
+
+    "gac                "
     "Bash script to bulk-commit all changes."
 
-    "gpl3gen         "
+    "gpl3gen            "
     "Generates a GPL-3.0 licence (file name: 'LICENSE') in the current directory."
 
-    "newsshkey       "
+    "newsshkey          "
     "Bash script to automatically generate SSH keys."
 
-    "nimdocgen       "
+    "nimdocgen          "
     "Bash script to automatically generate and deploy docs for projects using the Nim programming language."
 
-    "python-webserver"
+    "python-webserver   "
     "Bash script to quickly start a python3 webserver."
 
-    "replace         "
+    "replace            "
     "Lua Script that simplifies the 'sed' syntax for easy character replacement."
 
-    "updateall       "
+    "updateall          "
     "Bash script to update all packages, supports many package managers.\n\
     -a,--async       Perform updates in parallel (opens multiple terminal windows, not all are supported)"
 
-    "unfuck          "
+    "unfuck             "
     "Unfuck software, when it is not behaving like it should. Run without parameters for help."
 
-    "wtf-is-this     "
+    "wtf-is-this        "
     "Bash script to inform you about what script does what... THIS is it actually!!"
 
-    "zipdir          "
+    "zipdir             "
     "Bash script to zip a whole directory. It has the same name with only '.zip' appended."
 )
 

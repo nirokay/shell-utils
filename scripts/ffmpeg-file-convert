@@ -1,0 +1,26 @@
+#!/usr/bin/env bash
+
+# Check for existence by script with this one as dependency:
+if [ "$*" == "exists" ]; then exit 0; fi
+
+if ! ffmpeg --help &> /dev/null; then
+    echo -e "Missing dependency: ffmpeg"
+    exit 1
+fi
+
+INPUT_FILE=$1
+TARGET_FORMAT=$2
+
+[ -z "$INPUT_FILE" ] && {
+    echo -e "Missing argument, input file must be \$1."
+    exit 2
+}
+[ -z "$TARGET_FORMAT" ] && {
+    echo -e "Missing argument, target format must be \$2."
+    exit 2
+}
+
+FILE_TRUNK=$(echo "$INPUT_FILE" | sed 's/\.[^.]*$//')
+OUTPUT_FILE="$FILE_TRUNK.$TARGET_FORMAT"
+
+ffmpeg -i "$INPUT_FILE" "$OUTPUT_FILE"
