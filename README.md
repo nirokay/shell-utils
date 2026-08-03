@@ -246,7 +246,7 @@ Execution complete!
 
 Utility to get information about all the scripts or a single one in this project.
 
-See [the script](scripts/updateall) for up-to-date documentation on the scripts!
+See [the script](./scripts/wtf-is-this) for up-to-date documentation on the scripts!
 
 #### Examples
 
@@ -302,7 +302,7 @@ $ tree
 ## Contributions
 
 Contributions are always welcome. For example by expanding the supported package managers in
-[`scripts/updateall`](scripts/updateall).
+[`scripts/updateall`](./scripts/updateall).
 
 ## Licence
 
